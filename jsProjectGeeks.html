@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+    <title>Rock, Paper, Scissors</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <section id="player-choice">
+        <h2>Player's Choice is :</h2>
+      </section>
+      <section id="computer-choice">
+        <h2>Computer's Choice is :</h2>
+      </section>
+      <section id="result">
+        <h2>Result</h2>
+      </section>
+      <button id="play-again">Play Again</button>
+    </div>
+  </body>
+</html>
+<script>
+  const choices = ["Rock", "Paper", "Scissors"];
+
+  const container = document.querySelector(".container");
+
+  choices.forEach((choice) => {
+    const button = document.createElement("button");
+    button.textContent = choice;
+    button.classList.add("choice-button");
+    container.appendChild(button);
+  });
+
+  function getComputerChoice() {
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    return choices[randomIndex];
+  }
+
+  function determineWinner(playerChoice, computerChoice) {
+    if (playerChoice === computerChoice) {
+      return "It's a tie!";
+    } else if (
+      (playerChoice === "Rock" && computerChoice === "Scissors") ||
+      (playerChoice === "Paper" && computerChoice === "Rock") ||
+      (playerChoice === "Scissors" && computerChoice === "Paper")
+    ) {
+      return "You win!";
+    } else {
+      return "Computer wins!";
+    }
+  }
+
+  const choiceButtons = document.querySelectorAll(".choice-button");
+  const playerChoiceDisplay = document.getElementById("player-choice");
+  const computerChoiceDisplay = document.getElementById("computer-choice");
+  const resultDisplay = document.getElementById("result");
+  const playAgainButton = document.getElementById("play-again");
+
+  choiceButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const playerChoice = button.textContent;
+      const computerChoice = getComputerChoice();
+      const winner = determineWinner(playerChoice, computerChoice);
+
+      playerChoiceDisplay.innerHTML = `<h1>Player chose: <span style="color: red;">${playerChoice}</span></h1>`;
+      computerChoiceDisplay.innerHTML = `<h1>Computer chose <span style="color: red;">${computerChoice}</span></h1>`;
+      resultDisplay.textContent = winner;
+    });
+  });
+
+  playAgainButton.addEventListener("click", () => {
+    playerChoiceDisplay.textContent = "";
+    computerChoiceDisplay.textContent = "";
+    resultDisplay.textContent = "";
+  });
+</script>
